@@ -6859,3 +6859,15 @@ textarea.custom-form-control {
     position: relative;
     z-index: 9;
 }
+
+/* Constrain restaurant images dimensions */
+.restaurant-img1, .restaurant-img2 {
+  max-height: 480px;
+  overflow: hidden;
+}
+.restaurant-img1 img, .restaurant-img2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
