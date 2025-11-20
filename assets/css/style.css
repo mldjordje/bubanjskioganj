@@ -7145,6 +7145,28 @@ textarea.custom-form-control {
   border-bottom: 0;
 }
 
+/* Disable blocking overlay */
+#overlayer {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Keep hero and gallery visuals tidy */
+.hero-img-sec img,
+.hero-img-sec1 img,
+.video-homepage img {
+  max-height: 420px;
+  width: 100%;
+  object-fit: cover;
+}
+.gallery-slide img {
+  height: 260px;
+  width: 100%;
+  object-fit: cover;
+}
+
 @media (max-width: 767px) {
   .events-header {
     flex-direction: column;

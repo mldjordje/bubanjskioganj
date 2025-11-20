@@ -64,19 +64,21 @@
       badge.textContent = "Najava";
 
       const title = document.createElement("h4");
-      title.textContent = event.title || "Dogadjaj u kafani";
+      title.textContent = event.title || "Događaj u kafani";
 
       const meta = document.createElement("div");
       meta.className = "event-meta";
-      meta.textContent = `${formatDate(event.event_date)} - Pocetak ${event.start_time || "TBA"}`;
+      meta.textContent = `${formatDate(event.event_date)} - Početak ${event.start_time || "TBA"}`;
 
       const performer = document.createElement("p");
       performer.className = "event-performer";
-      performer.textContent = event.performer ? `Peva: ${event.performer}` : "Pevac ce biti objavljen";
+      performer.textContent = event.performer
+        ? `Peva: ${event.performer}`
+        : "Pevač će biti objavljen";
 
       const description = document.createElement("p");
       description.className = "event-description";
-      description.textContent = event.description || "Detalji stizu uskoro.";
+      description.textContent = event.description || "Detalji stižu uskoro.";
 
       body.appendChild(badge);
       body.appendChild(title);
@@ -92,7 +94,7 @@
   };
 
   const loadEvents = async () => {
-    setStatus("Ucitavanje dogadjaja...");
+    setStatus("Učitavanje događaja...");
     try {
       const config = await getConfig();
       const { createClient } = supabase;
@@ -111,14 +113,16 @@
       }
 
       if (!data || data.length === 0) {
-        setStatus("Trenutno nema najavljenih dogadjaja.");
+        setStatus("Trenutno nema najavljenih događaja.");
         return;
       }
 
       clearStatus();
       renderEvents(data);
     } catch (err) {
-      setStatus("Nije moguce dohvatiti najave. Proverite podesavanja Supabase naloga.");
+      setStatus(
+        "Nije moguće dohvatiti najave. Proverite podešavanja Supabase naloga."
+      );
       console.error(err);
     }
   };
