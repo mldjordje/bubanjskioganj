@@ -6871,6 +6871,13 @@ textarea.custom-form-control {
   object-fit: cover;
   display: block;
 }
+.chefs-img-sec img {
+  width: 100%;
+  height: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  display: block;
+}
 
 /* Events block */
 #events-section {
@@ -7151,6 +7158,110 @@ textarea.custom-form-control {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+.menupage-1-reser-overlay {
+  display: none !important;
+}
+
+/* Compact image sizing for menu highlights */
+.homepage1-menu-left img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Simplified menu lists */
+.menu-simple {
+  margin-top: 30px;
+  display: grid;
+  gap: 36px;
+}
+.menu-category {
+  background: #ffffff;
+  border: 1px solid #e8dfd3;
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
+}
+.menu-category h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  color: #20180f;
+}
+.menu-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px 18px;
+}
+.menu-item-card {
+  padding: 12px 0;
+  border-bottom: 1px solid #efe6d9;
+}
+.menu-item-card:last-child {
+  border-bottom: none;
+}
+.menu-item-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.menu-item-name {
+  font-weight: 700;
+  color: #2d2418;
+}
+.menu-item-price {
+  font-weight: 700;
+  color: #b2762b;
+  white-space: nowrap;
+}
+.menu-item-desc {
+  margin: 4px 0 0;
+  color: #6b6359;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Menu CTA */
+.menu-cta {
+  margin-top: 40px;
+  padding: 22px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f7e8d4, #f0d9b9);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.menu-cta h3 {
+  margin: 0;
+  color: #2d2318;
+}
+.menu-cta .cta-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.menu-cta a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.menu-cta .btn-primary {
+  background: #b2762b;
+  color: #fff;
+}
+.menu-cta .btn-ghost {
+  border: 1px solid #b2762b;
+  color: #b2762b;
+  background: #fff;
 }
 
 /* Keep hero and gallery visuals tidy */
