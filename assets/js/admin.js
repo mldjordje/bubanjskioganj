@@ -13,6 +13,8 @@
   const sessionInfo = document.querySelector("[data-session-info]");
 
   let client;
+  let currentEditId = null;
+  let currentImageUrl = null;
 
   const setStatus = (message, tone = "info") => {
     if (!statusEl) return;
@@ -93,7 +95,7 @@
       const supa = await ensureClient();
       const { data, error } = await supa
         .from("events")
-        .select("id, title, event_date, performer, start_time")
+        .select("id, title, event_date, performer, start_time, description, image_url")
         .order("event_date", { ascending: false })
         .limit(5);
 
@@ -110,9 +112,60 @@
       data.forEach((event) => {
         const item = document.createElement("li");
         const performerText = event.performer ? ` - ${event.performer}` : "";
-        item.textContent = `${event.title || "Najava"} - ${formatDate(
+        const info = `${event.title || "Najava"} - ${formatDate(
           event.event_date
         )} - Pocetak ${event.start_time || "TBA"}${performerText}`;
+        const infoEl = document.createElement("div");
+        infoEl.textContent = info;
+
+        const actions = document.createElement("div");
+        actions.style.display = "flex";
+        actions.style.gap = "8px";
+        actions.style.marginTop = "4px";
+
+        const editBtn = document.createElement("button");
+        editBtn.type = "button";
+        editBtn.textContent = "Izmeni";
+        editBtn.className = "events-admin-tag";
+        editBtn.addEventListener("click", () => {
+          if (!eventForm) return;
+          eventForm.querySelector('input[name="title"]').value = event.title || "";
+          eventForm.querySelector('input[name="performer"]').value = event.performer || "";
+          eventForm.querySelector('input[name="event_date"]').value = event.event_date || "";
+          eventForm.querySelector('input[name="start_time"]').value = event.start_time || "";
+          eventForm.querySelector('textarea[name="description"]').value = event.description || "";
+          currentEditId = event.id;
+          currentImageUrl = event.image_url || null;
+          setStatus("Uređujete postojeći događaj. Dodajte novu sliku samo ako želite da je zamenite.", "info");
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.textContent = "Obriši";
+        deleteBtn.className = "events-admin-tag";
+        deleteBtn.addEventListener("click", async () => {
+          const confirmDelete = window.confirm("Obrisati ovu objavu?");
+          if (!confirmDelete) return;
+          try {
+            const supaClient = await ensureClient();
+            const { error: delError } = await supaClient
+              .from("events")
+              .delete()
+              .eq("id", event.id);
+            if (delError) throw delError;
+            setStatus("Objava obrisana.", "success");
+            await listEvents();
+          } catch (err) {
+            console.error(err);
+            setStatus("Brisanje nije uspelo. Proverite konekciju i pravila.", "error");
+          }
+        });
+
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+
+        item.appendChild(infoEl);
+        item.appendChild(actions);
         list.appendChild(item);
       });
 
@@ -191,36 +244,59 @@
         .value.trim();
       const fileInput = eventForm.querySelector('input[name="image"]');
       const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+      const isEditing = Boolean(currentEditId);
 
-      if (!title || !eventDate || !startTime || !performer || !file) {
+      if (!title || !eventDate || !startTime || !performer || (!file && !isEditing)) {
         setStatus("Popunite sva polja i dodajte sliku.", "error");
         return;
       }
 
       submitBtn.disabled = true;
-      setStatus("Objavljujemo dogadjaj...", "info");
+      setStatus(isEditing ? "Čuvamo izmene..." : "Objavljujemo događaj...", "info");
 
       try {
-        const imageUrl = await uploadImage(file);
+        let imageUrl = currentImageUrl;
+        if (file) {
+          imageUrl = await uploadImage(file);
+        }
         const supa = await ensureClient();
 
-        const { error } = await supa.from("events").insert([
-          {
-            title,
-            description,
-            performer,
-            event_date: eventDate,
-            start_time: startTime,
-            image_url: imageUrl,
-          },
-        ]);
+        if (!isEditing) {
+          const { error } = await supa.from("events").insert([
+            {
+              title,
+              description,
+              performer,
+              event_date: eventDate,
+              start_time: startTime,
+              image_url: imageUrl,
+            },
+          ]);
 
-        if (error) {
-          throw error;
+          if (error) {
+            throw error;
+          }
+        } else {
+          const { error } = await supa
+            .from("events")
+            .update({
+              title,
+              description,
+              performer,
+              event_date: eventDate,
+              start_time: startTime,
+              image_url: imageUrl,
+            })
+            .eq("id", currentEditId);
+          if (error) {
+            throw error;
+          }
         }
 
-        setStatus("Dogadjaj je objavljen.", "success");
+        setStatus(isEditing ? "Izmene sačuvane." : "Dogadjaj je objavljen.", "success");
         eventForm.reset();
+        currentEditId = null;
+        currentImageUrl = null;
         await listEvents();
       } catch (err) {
         console.error(err);
