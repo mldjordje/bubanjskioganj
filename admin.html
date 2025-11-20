@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin panel | Bubanjski Oganj</title>
+	<link rel="icon" href="assets/images/favicon/icon.png">
+	<link href="https://fonts.googleapis.com/css2?family=Elsie&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Elsie&family=Lexend:wght@400;500&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<link rel="stylesheet" href="assets/css/slick.css">
+	<link rel="stylesheet" href="assets/css/aos.css">
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/photoswipe.min.css">
+	<link rel="stylesheet" href="assets/css/default-skin.min.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/media-query.css">
+</head>
+
+<body class="admin-body">
+	<div class="site_content">
+		<header class="admin-header">
+			<div class="container admin-header-inner">
+				<div class="admin-branding">
+					<a href="index.html" class="admin-logo-link">
+						<img src="assets/images/Homepage1/logo.webp" alt="Restoran Bubanjski Oganj">
+						<span class="admin-logo-text">Admin panel</span>
+					</a>
+				</div>
+				<div class="admin-links">
+					<a href="index.html" class="events-admin-tag">Nazad na sajt</a>
+				</div>
+			</div>
+		</header>
+
+		<main class="container admin-wrapper">
+			<div class="row justify-content-center">
+				<div class="col-lg-10">
+					<div class="admin-intro text-center">
+						<p class="events-subtitle">Najave svirki i muzika uzivo</p>
+						<h1 class="events-title admin-page-title">Objavite sledece desavanje u kafani</h1>
+						<p class="events-lead text-muted">Prijavite se svojim Supabase nalozima i popunite formu sa datumom, pevacem, vremenom pocetka i jednom fotografijom.</p>
+						<div class="admin-status" data-admin-status></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row g-4 align-items-start admin-panels">
+				<div class="col-lg-4" data-login-card>
+					<div class="admin-card">
+						<h3 class="admin-card-title mb-3">Prijava</h3>
+						<form id="admin-login-form" class="admin-form">
+							<label class="admin-label">Email</label>
+							<input type="email" name="email" class="admin-input" placeholder="admin@primer.com" required>
+
+							<label class="admin-label mt-3">Lozinka</label>
+							<input type="password" name="password" class="admin-input" placeholder="Lozinka" required>
+
+							<button type="submit" class="admin-submit w-100 mt-4">Prijavi se</button>
+						</form>
+						<p class="admin-hint mt-3">Napomena: korisnike kreirate kroz Supabase Auth. Ovaj panel radi samo za ulogovane admin naloge.</p>
+					</div>
+				</div>
+
+				<div class="col-lg-8 d-none" data-event-card>
+					<div class="admin-card">
+						<div class="admin-card-head">
+							<div>
+								<p class="admin-card-subtitle">Nova najava</p>
+								<h3 class="admin-card-title">Objavite muziku uzivo</h3>
+								<p class="admin-card-meta">Ulogovani ste kao <span data-session-info></span></p>
+							</div>
+							<button type="button" id="admin-logout-btn" class="events-admin-tag">Odjava</button>
+						</div>
+						<form id="event-form" class="admin-form">
+							<div class="admin-grid">
+								<div>
+									<label class="admin-label">Naziv dogadjaja</label>
+									<input type="text" name="title" class="admin-input" placeholder="Npr. Akusticno vece" required>
+								</div>
+								<div>
+									<label class="admin-label">Pevac / bend</label>
+									<input type="text" name="performer" class="admin-input" placeholder="Ime izvodjaca" required>
+								</div>
+								<div>
+									<label class="admin-label">Datum</label>
+									<input type="date" name="event_date" class="admin-input" required>
+								</div>
+								<div>
+									<label class="admin-label">Pocetak</label>
+									<input type="time" name="start_time" class="admin-input" required>
+								</div>
+								<div>
+									<label class="admin-label">Opis (kratak tekst)</label>
+									<textarea name="description" class="admin-input" rows="3" placeholder="Sta gosti mogu da ocekuju"></textarea>
+								</div>
+								<div>
+									<label class="admin-label">Slika (jedna fotografija 3-4MB max)</label>
+									<input type="file" name="image" class="admin-input" accept="image/*" required>
+								</div>
+							</div>
+							<button type="submit" class="admin-submit w-100 mt-4">Objavi dogadjaj</button>
+						</form>
+					</div>
+
+					<div class="admin-card mt-4">
+						<h4 class="admin-card-title mb-2">Poslednje objave</h4>
+						<p class="admin-card-meta">Brzi pregled poslednjih 5 najava koje ste uneli.</p>
+						<div data-admin-events></div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+
+	<script src="assets/js/jquery-min-3.6.0.js"></script>
+	<script src="assets/js/slick.min.js"></script>
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/aos.js"></script>
+	<script src="assets/js/jquery-ui.min.js"></script>
+	<script src="assets/js/datepicker.js"></script>
+	<script src="assets/js/wow.min.js"></script>
+	<script src="assets/js/photoswipe.min.js"></script>
+	<script src="assets/js/photoswipe-ui-default.min.js"></script>
+	<script src="assets/js/gallery-popup.js"></script>
+	<script src="assets/js/TweenMax.min.js"></script>
+	<script src="assets/js/ScrollMagic.js"></script>
+	<script src="assets/js/animation.gsap.min.js"></script>
+	<script src="assets/js/scolling.js"></script>
+	<script src="assets/js/custom.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"
+		integrity="sha256-36CpXI1DCHN68rEmsZKs8XexgA4Fx6C1sLbBEopU2vQ=" crossorigin="anonymous"></script>
+	<script src="assets/js/admin.js"></script>
+</body>
+
+</html>
